@@ -25,7 +25,7 @@ const ScreenDashboard = () => {
     { name: "Actividades", icon: faListCheck, path: "/backoffice/activities" },
     { name: "Categorias", icon: faTableList, path: "/backoffice/categories" },
     { name: "Testimonios", icon: faMessage, path: "/backoffice/testimonials" },
-    // { name: "Organizacion", icon: faSitemap, path: "/backoffice/organization" },
+    { name: "Organizacion", icon: faSitemap, path: "/backoffice/organization" },
     { name: "Slides", icon: faSliders, path: "/backoffice/slides" },
     { name: "Usuarios", icon: faUsers, path: "/backoffice/users" },
     { name: "Miembros", icon: faUserGroup, path: "/backoffice/members" },

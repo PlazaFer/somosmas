@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
   logosm: {
     [theme.breakpoints.up('md')]: {
       paddingLeft: '20px',
-      maxWidth: '75%',
+      maxWidth: '60%',
     },
     [theme.breakpoints.down('md')]: {
       display: 'none',

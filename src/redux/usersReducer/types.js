@@ -1,0 +1,11 @@
+export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
+export const LOGIN_FAILED = "LOGIN_FAILED";
+export const REGISTER_SUCCESS = "REGISTER_SUCCESS";
+export const REGISTER_FAILED = "REGISTER_FAILED";
+export const LOG_OUT = "LOG_OUT";
+export const LOADING_ON = "LOADING_ON"
+export const LOADING_OFF = "LOADING_OFF"
+export const ROL_SUCCESS = "ROL_SUCCESS"
+export const ROL_FAILED = "ROL_FAILED"
+export const AUTH_SUCCESS = "AUTH_SUCCESS"
+export const AUTH_FAILED = "AUTH_FAILED"

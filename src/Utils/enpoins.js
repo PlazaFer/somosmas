@@ -1,0 +1,1 @@
+export const NEWS_API ='https://ongapi.alkemy.org/api/news'

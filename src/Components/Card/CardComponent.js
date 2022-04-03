@@ -1,6 +1,6 @@
 import React from 'react';
 import parse from 'html-react-parser';
-import Card from '@mui/material/Card';
+import { Card, CardHeader, Box } from '@mui/material';
 import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
@@ -14,31 +14,29 @@ const CardComponent = ({title,image,placeHolder,description,leerMasLink}) => {
 
   return (
     <Card className={classes.container}>
-      <div  className={classes.styleTitle}>
-        <Typography variant='body1'>
-            <b>{title}</b>
-        </Typography>
-       </div>
-
+      <CardHeader  className={classes.styleTitle}
+        titleTypographyProps={{variant:'body1', fontWeight: 'bold'}}
+        title={title}
+       />
       <CardMedia
         component="img"
-        height="194"
+        height="180"
         image={image}
-        alt=""
+        alt={title}
         placeholder={placeHolder}
       />
       <CardContent>
-        <Typography variant="subtitle2" className={classes.styleDescription}>
+        <Typography variant="body1" className={classes.styleDescription}>
         {parse(`${description}`)}
         </Typography>
       </CardContent>
-      <CardActions disableSpacing >   
+      <CardActions >   
         { leerMasLink &&
-          <div onClick={leerMasLink} className={classes.leerMas}>
-            <Typography variant="subtitle2" color="primary">
-              Leer más
-            </Typography>
-        </div>
+        <Box className={classes.containerButton}>
+             <Typography variant="body1" color="primary" onClick={leerMasLink} className={classes.button}>
+               Leer más
+             </Typography>
+         </Box>
         }
       </CardActions>
     </Card>
@@ -46,3 +44,6 @@ const CardComponent = ({title,image,placeHolder,description,leerMasLink}) => {
 }
 
 export default CardComponent;
+
+
+

@@ -1,6 +1,6 @@
 import React from "react";
 import { Box } from "@mui/material";
-import Header from "./Header";
+import Header from "./Header/Header";
 import Footer from "./Footer";
 import useStyles from './styles/StyledHeader';
 import { useSelector,useDispatch } from "react-redux";

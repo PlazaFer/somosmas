@@ -1,54 +1,22 @@
-import * as React from "react";
-import {AppBar, Box, Toolbar, IconButton, Typography, Drawer, Divider, List, ListItem, Button} from "@mui/material";
-import { NavLink } from "react-router-dom";
-import useStyles from "./styles/StyledHeader";
+import React, { useState } from "react";
+import useStyles from "../styles/StyledHeader";
+import { Appbar } from "./Appbar";
+import { DrawerHome } from './DrawerHome';
+import { AppbarResponsive } from './AppbarResponsive';
 import { useDispatch, useSelector } from "react-redux";
-import { cerrarSesion } from "../../redux/usersReducer/action";
+import { cerrarSesion } from "../../../redux/usersReducer/action";
 import { useHistory } from "react-router-dom";
+
 
 const Header = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const { isLogin, rol_type } = useSelector((state) => state.auth);
   const classes = useStyles();
-  const [anchorElNav, setAnchorElNav] = React.useState(null);
+  const [ open, setOpen ] = useState(false);
 
-  const handleOpenNavMenu = (event) => {
-    setAnchorElNav(event.currentTarget);
-  };
 
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
-  };
-
-  const headerData = [
-    {
-      name: "Inicio",
-      url: "/"
-    },
-    {
-      name: "Nosotros",
-      url: "/nosotros"
-    },
-    {
-      name: "Contacto",
-      url: "/contacto"
-    },
-    {
-      name: "School-Campaign",
-      url: "/school-campaign",
-    },
-    {
-      name: "Toys-campaign",
-      url: "/toys-campaign",
-    },
-    {
-      name: "Contribuir",
-      url: "/donation"
-    },
-  ];
-
-  const handleClick = () => {
+  const handleLogout = () => {
     dispatch(cerrarSesion());
     history.push("/");
   };
@@ -56,43 +24,17 @@ const Header = () => {
   return (
     // AppBar Mobile
 
+  
+      <>
+        <AppbarResponsive setOpen={setOpen} open={open}/>
+        <DrawerHome open={open} setOpen={setOpen} handleLogout={handleLogout}/>
+        <Appbar handleLogout={handleLogout} />
+        </>
+
+
+
     // Appbar Desktop
-    <AppBar position="static" className={classes.appbar}>
-      <Toolbar>
-        <Box className={classes.container}>
-          <Box className={classes.subContainer}>
-            <Box className={classes.containerLogo}>
-              <img
-                src="/Images/LOGO-SOMOS MAS.png"
-                alt=""
-                className={classes.logosm}
-              />
-            </Box>
-            <Box className={classes.linksContainer}>
-              {
-                headerData.map((links) => (
-                <NavLink key={links.name} to={links.url} className={classes.link}>
-                  {links.name}
-                </NavLink>
-                ))
-              }
-            </Box>
-            </Box>
-          <Box className={classes.buttonsContainer}>
-            <NavLink to="/login" className={classes.buttonLink}>
-              <Button size="small" color="info" variant="contained">
-                Login
-              </Button>
-            </NavLink>
-            <NavLink to="/register" className={classes.buttonLink}>
-              <Button size="small" color="info" variant="contained">
-                Register
-              </Button>
-            </NavLink>
-        </Box>
-        </Box>
-      </Toolbar>
-    </AppBar>
+   
 
     /*
 <Box className={classes.linksContainer}>

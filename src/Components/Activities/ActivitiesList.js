@@ -58,7 +58,6 @@ const ActivitiesList = () => {
           ))}
         </Grid>
       </Container>
-    </Container>
   )
 }
 

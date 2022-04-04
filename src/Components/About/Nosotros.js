@@ -33,7 +33,6 @@ const Nosotros = () => {
       <Container>
         <NosotrosText text={nosotrosMockInfo.text} />
         <NosotrosList miembros={members} />
-        <DecorativeLine />
       </Container>
     </>
   )

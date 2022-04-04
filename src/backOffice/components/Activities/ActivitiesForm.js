@@ -140,7 +140,7 @@ const ActivitiesForm = ({ data }) => {
               className={classes.finalLink}
               variant="contained"
               color="secondary"
-              onClick={() => history.goBack()}
+              onClick={() => history.push("/backoffice/activities")}
             >
               Volver a la lista
             </Button>

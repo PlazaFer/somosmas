@@ -9,15 +9,23 @@ const useStyles = makeStyles((theme) => ({
   fieldForm: {
     marginTop: '20px !important',
   },
-  txt: {
-    margin: '20px 0px 10px 0px !important',
-    width: '99%',
-    maxHeight: '50%',
-  },
   typographyTextArea: {
     paddingLeft: 12,
     paddingBottom: 10,
   },
+  titleForm:{
+    textAlign: 'center',
+    fontSize: 18,
+    [theme.breakpoints.up('sm')]:{
+      fontSize: 30
+    }
+  },
+  paper:{
+    padding: theme.spacing(4)
+  },
+  buttonContacto:{
+    marginTop: theme.spacing(3)
+  }
 }))
 
 export default useStyles

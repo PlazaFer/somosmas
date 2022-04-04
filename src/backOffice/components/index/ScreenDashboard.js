@@ -4,7 +4,8 @@ import {
   Box,
   Typography,
   Grid,
-  Paper
+  Paper,
+  Toolbar
 } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -36,7 +37,7 @@ const ScreenDashboard = () => {
   return (
       <Grid
         container
-        spacing={5}
+        spacing={2}
         className={classes.container}
       >
         {options.map((option, index) => (

@@ -1,5 +1,7 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import { useEffect } from "react";
+import { useHistory } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import parse from 'html-react-parser';
 import {
   Paper,
   Table,
@@ -13,22 +15,23 @@ import {
 } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPen } from "@fortawesome/free-solid-svg-icons";
-import useStyles from "../../styles/styledList";
-import EditHomeForm from "./EditHome/EditHomeForm";
+import { useStyles } from "./styles/organizationScreenStyles";
+import { getOrganizations } from "../../../redux/Organization/organizationSlice";
 
 const OrganizationScreen = () => {
-  const classes = useStyles();
 
-  const datosMockeados = {
-    name: "Somos Mas",
-    image: process.env.PUBLIC_URL + "/images/LOGO-SOMOS-MAS.png",
-    shortDescription:
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
-  };
+  const { organizations } = useSelector((state) => state.organization);
+  const dispatch = useDispatch();
+  const classes = useStyles();
+  const history = useHistory();
+
+  useEffect(() => {
+    dispatch(getOrganizations())
+  }, [dispatch])
 
   return (
       <>
-      <Typography variant="h3" className={classes.title}>Organizacion</Typography>
+      <Typography variant="h4" className={classes.title}>Organizacion</Typography>
       <Box className={classes.containerList}>
     <TableContainer component={Paper} className={classes.tableContainer}>
       <Table sx={{minWidth: 300}} aria-label="customized table">
@@ -43,32 +46,31 @@ const OrganizationScreen = () => {
         <TableBody>
           <TableRow className={classes.tableRow}>
             <TableCell align="center" className={classes.tableCell}>
-              {datosMockeados.name}
+              {organizations.name}
             </TableCell>
             <TableCell align="center" className={classes.tableCell}>
               <img
                 alt="Logo Ong" 
                 height="150px" 
                 width="150px"
-                src={datosMockeados.image}
+                src={organizations.logo}
                 className={classes.img}
               />
             </TableCell>
             <TableCell align="center" className={classes.tableCell} sx={{maxWidth: 50}}>
-              {datosMockeados.shortDescription}
+              {parse(`${organizations.short_description}`)}
             </TableCell>
             <TableCell align="center" className={classes.tableCell}>
-                <Link to="/backoffice/organization/edit">
-                    <FontAwesomeIcon icon={faPen} className={classes.icon}/>
-                </Link>
+              <FontAwesomeIcon 
+                icon={faPen} 
+                className={classes.icon}
+                onClick={() => history.push("/backoffice/organization/edit", organizations.id)}
+              />
             </TableCell>
           </TableRow>
         </TableBody>
       </Table>
     </TableContainer>
-      </Box>
-      <Box sx={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-        {/* <EditHomeForm /> */}
       </Box>
     </>
   );

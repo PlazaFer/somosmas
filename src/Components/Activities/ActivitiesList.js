@@ -57,7 +57,7 @@ const ActivitiesList = () => {
               </Grid>
           ))}
         </Grid>
-      <DecorativeLine />
+      </Container>
     </Container>
   )
 }

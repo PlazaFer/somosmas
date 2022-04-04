@@ -13,7 +13,6 @@ const Contacto = () => {
       <Container className={classes.container}>
         <ContactForm />
       </Container>
-      <DecorativeLine />
     </>
   )
 }

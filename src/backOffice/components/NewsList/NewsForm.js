@@ -39,10 +39,8 @@ const NewsForm = (id) => {
       try {
         const response = await axios('https://ongapi.alkemy.org/api/categories')
         const result = await response.data
-        console.log(response)
         setCategory(result.data)
       } catch (error) {
-        console.error(error)
       }
     }
     fetchCategories()
@@ -201,7 +199,7 @@ const NewsForm = (id) => {
           <Button
             variant="contained"
             color="secondary"
-            onClick={() => history.goBack()}
+            onClick={() => history.push("/backoffice/news")}
           >
             Volver a la lista
           </Button>

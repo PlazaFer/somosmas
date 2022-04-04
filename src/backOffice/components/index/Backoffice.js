@@ -79,15 +79,10 @@ function BackOficce() {
           <Route exact path={`${match.path}/slides/edit/:id`} component={SlidesForm} />
 
           <Route exact path={`${match.path}/testimonials/create`} component={TestimonialForm} />
-          <Route
-            exact
-            path={`${match.path}/testimonials/create`}
-            component={TestimonialForm}
-          />
 
           <Route
             exact
-            path={`${match.path}/testimonials/edit/:id`}
+            path={`${match.path}/testimonials/edit`}
             component={TestimonialForm}
           />
 

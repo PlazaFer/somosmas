@@ -8,7 +8,6 @@ import ModeEdit from '@mui/icons-material/ModeEdit'
 import { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { sweetAlertConfirm } from '../../../Utils/sweetAlertConfirm'
-import { sweetAlertMixin } from '../../../Utils/AlertState'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
   const ActivitiesList = () => {

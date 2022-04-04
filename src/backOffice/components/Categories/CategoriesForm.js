@@ -128,7 +128,7 @@ const CategoriesForm = () => {
 					<Button
 						variant="contained"
 						color="secondary"
-						onClick={() => history.goBack()}
+						onClick={() => history.push("/backoffice/categories")}
 					>
 						Volver a la lista
 					</Button>

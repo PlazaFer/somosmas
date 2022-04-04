@@ -121,7 +121,7 @@ const SlidesForm = () => {
                     <Button
                         variant="contained"
                         color="secondary"
-                        onClick={() => history.goBack()}
+                        onClick={() => history.push("/backoffice/slides")}
                     >
                         Volver a la lista
                     </Button>

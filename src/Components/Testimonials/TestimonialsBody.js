@@ -1,8 +1,12 @@
 import React from "react";
-import { Container, Box, Grid, Typography } from "@mui/material";
+import { Container, Grid } from "@mui/material";
 import CardComponent from "../Card/CardComponent";
+import { useStyles } from "./styles/testimonialsBodyStyle";
 
 export const TestimonialsBody = ({ testimonials }) => {
+
+    const classes = useStyles();
+
   return (
     <Container>
       <Grid
@@ -11,7 +15,7 @@ export const TestimonialsBody = ({ testimonials }) => {
         direction="row"
         justifyContent="center"
         alignItems="center"
-        // className={classes.gridContainer}
+        className={classes.gridContainer}
       >
         {testimonials.map((testimonial) => (
           <Grid
@@ -20,7 +24,7 @@ export const TestimonialsBody = ({ testimonials }) => {
             sm={12}
             md={6}
             lg={4}
-            // className={classes.gridItem}
+            className={classes.gridItem}
           >
             <CardComponent
               key={testimonial.id}

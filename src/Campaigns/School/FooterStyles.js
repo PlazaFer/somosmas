@@ -3,11 +3,7 @@ import { makeStyles } from '@mui/styles'
 export const useStyles = makeStyles((theme) => ({
   container: {
     display: 'flex',
-
-    /* position: 'absolute',
-        bottom: 0, */
     backgroundColor: '#FFF',
-    padding: '10px',
   },
 
   logo: {

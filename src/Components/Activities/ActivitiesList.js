@@ -46,7 +46,6 @@ const ActivitiesList = () => {
           })}
         </Grid>
       </Container>
-      <DecorativeLine />
     </Container>
   )
 }

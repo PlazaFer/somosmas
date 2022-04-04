@@ -1,19 +1,19 @@
 import React from 'react';
 import Slider from "./Slider"
-import {Box ,Typography} from '@mui/material'
+import { Box, Typography } from '@mui/material'
 import useStyles from './styles/contentStyle'
 import CountDown from '../Toys/CountDown'
 
 const texts = {
-    titleSchool: 'CAMPAÑA DE RECOLECCIÓN DE ÚTILES ESCOLARES',
-   
-  }
+  titleSchool: 'CAMPAÑA DE RECOLECCIÓN DE ÚTILES ESCOLARES',
+
+}
 
 const Content = () => {
   const classes = useStyles();
-  
+
   return (
-    <div>
+    <>
       <Slider />
       <Box className={classes.bigBox}>
         <Box className={classes.boxTitle}>
@@ -22,18 +22,15 @@ const Content = () => {
           </Typography>
         </Box>
         <Box className={classes.boxTitle}>
-        
-        <Box className={classes.containerBox}>
-        <Typography className={classes.titleCamp}>{texts.titleSchool}</Typography> 
-        <div>
-        <CountDown />
-        </div>
-     
-    </Box>
+          <Box className={classes.containerBox}>
+            <Typography className={classes.titleCamp}>{texts.titleSchool}</Typography>
+            <Box>
+              <CountDown />
+            </Box>
+          </Box>
         </Box>
-
       </Box>
-    </div>
+    </>
   );
 }
 

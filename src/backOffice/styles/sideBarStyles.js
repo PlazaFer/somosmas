@@ -25,7 +25,24 @@ const useStyles = makeStyles((theme) => ({
         width: 80,
         height: 80,
         margin: '0px 20px 0px 20px',
+    },
+
+    drawer : {
+        width : "180px",
+        [theme.breakpoints.down("sm")]:{
+            display : "none"
+        }
+    },
+
+    listItem : {
+        margin : '25px auto 20px auto'
+    },
+
+    link : {
+        textDecoration : "none",
+        color: "#000"
     }
+
 }));
 
 

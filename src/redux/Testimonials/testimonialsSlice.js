@@ -28,17 +28,9 @@ export const putTestimonials = createAsyncThunk('testimonials/putTestimonials', 
 })
 
 const initialState = {
-	testimonials: {
-		data: [
-			{
-				name: "",
-				description: "",
-				image: "",
-			},
-		],
-	},
-	// slideById: null,
-	status: "idle",
+	testimonials: [],
+	testimonialsID: null,
+	status: null,
 	error: null,
 };
 
@@ -51,7 +43,8 @@ const testimonialsSlice = createSlice({
     },
     [getTestimonials.fulfilled]: (state, { payload }) => {
       state.status = 'succeeded'
-      state.testimonials.data = payload.data
+      state.testimonialsID = null
+      state.testimonials = payload.data
     },
     [getTestimonials.rejected]: (state, { error }) => {
       state.status = 'failed'
@@ -62,7 +55,7 @@ const testimonialsSlice = createSlice({
       state.status = 'loading'
     },
     [deleteTestimonials.fulfilled]: (state) => {
-      state.status = 'updated'
+      state.status = 'deleted'
     },
     [deleteTestimonials.rejected]: (state, { error }) => {
       state.status = 'failed'
@@ -73,8 +66,8 @@ const testimonialsSlice = createSlice({
       state.status = 'loading'
     },
     [getTestimonialsById.fulfilled]: (state, { payload }) => {
-      state.status = 'updated'
-      state.testimonials.data = payload.data
+      state.status = 'success'
+      state.testimonialsID = payload.data
     },
     [getTestimonialsById.rejected]: (state, { error }) => {
       state.status = 'failed'
@@ -85,7 +78,7 @@ const testimonialsSlice = createSlice({
       state.status = 'loading'
     },
     [putTestimonials.fulfilled]: (state,) => {
-      state.status = 'updated'
+      state.status = 'edited'
     },
     [putTestimonials.rejected]: (state, { error }) => {
       state.status = 'failed'
@@ -96,7 +89,7 @@ const testimonialsSlice = createSlice({
       state.status = 'loading'
     },
     [postTestimonials.fulfilled]: (state,) => {
-      state.status = 'updated'
+      state.status = 'created'
     },
     [postTestimonials.rejected]: (state, { error }) => {
       state.status = 'failed'
@@ -105,7 +98,7 @@ const testimonialsSlice = createSlice({
   }
 })
 
-export const selectAllTestimonials = state => state.testimonials.testimonials.data
+export const selectAllTestimonials = state => state.testimonials.testimonials
 export const selectTestimonialsStatus = state => state.testimonials.status
 
 export default testimonialsSlice.reducer

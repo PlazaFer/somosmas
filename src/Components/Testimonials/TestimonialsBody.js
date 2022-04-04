@@ -1,10 +1,37 @@
-import React from 'react';
+import React from "react";
+import { Container, Box, Grid, Typography } from "@mui/material";
+import CardComponent from "../Card/CardComponent";
 
-
-export const TestimonialsBody = () => {
-    return(
-        <p>
-            Testimonials Body
-        </p>
-    )
-}
+export const TestimonialsBody = ({ testimonials }) => {
+  return (
+    <Container>
+      <Grid
+        container
+        spacing={4}
+        direction="row"
+        justifyContent="center"
+        alignItems="center"
+        // className={classes.gridContainer}
+      >
+        {testimonials.map((testimonial) => (
+          <Grid
+            item
+            key={testimonial.id}
+            sm={12}
+            md={6}
+            lg={4}
+            // className={classes.gridItem}
+          >
+            <CardComponent
+              key={testimonial.id}
+              title={testimonial.name}
+              image={testimonial.image}
+              description={testimonial.description}
+            //   leerMasLink={() => handleSubmit(testimonial.name, testimonial.id)}
+            />
+          </Grid>
+        ))}
+      </Grid>
+    </Container>
+  );
+};

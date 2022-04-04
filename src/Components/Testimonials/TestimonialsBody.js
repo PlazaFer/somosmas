@@ -1,11 +1,14 @@
 import React from "react";
-import { Container, Grid } from "@mui/material";
+import { useHistory } from "react-router-dom";
 import CardComponent from "../Card/CardComponent";
+import { Container, Grid } from "@mui/material";
 import { useStyles } from "./styles/testimonialsBodyStyle";
 
 export const TestimonialsBody = ({ testimonials }) => {
 
+    const history = useHistory();
     const classes = useStyles();
+
 
   return (
     <Container>
@@ -31,7 +34,7 @@ export const TestimonialsBody = ({ testimonials }) => {
               title={testimonial.name}
               image={testimonial.image}
               description={testimonial.description}
-            //   leerMasLink={() => handleSubmit(testimonial.name, testimonial.id)}
+              leerMasLink={() => history.push(`/testimonios/${testimonial.id}`, testimonial.id)}
             />
           </Grid>
         ))}

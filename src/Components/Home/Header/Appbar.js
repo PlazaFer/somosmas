@@ -38,12 +38,12 @@ export const Appbar = ({ handleLogout }) => {
           {!isLogin && 
           <>
             <NavLink to="/login" className={classes.buttonLink}>
-              <Button size="small" color="info" variant="contained">
+              <Button size="small" color="secondary" variant="contained">
                 Login
               </Button>
             </NavLink>
             <NavLink to="/register" className={classes.buttonLink}>
-              <Button size="small" color="info" variant="contained">
+              <Button size="small" color="secondary" variant="contained">
                 Register
               </Button>
             </NavLink>
@@ -57,7 +57,7 @@ export const Appbar = ({ handleLogout }) => {
                 <Button
                   variant='contained'
                   size="small"
-                  color='info'
+                  color='secondary'
                 >
                   Backoffice
                 </Button>
@@ -71,7 +71,7 @@ export const Appbar = ({ handleLogout }) => {
                 <Button
                   size="small"
                   variant="contained"
-                  color='info'
+                  color='secondary'
                   onClick={handleLogout}
                 >
                   Logout

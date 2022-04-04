@@ -27,7 +27,7 @@ export const DrawerHome = ({open, setOpen, handleLogout}) => {
             sx: {
                 width: {
                     xs: '100vw',
-                    sm: "50vw",
+                    sm: "30vw",
                 }
             }
         }}

@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from "react";
 import useStyles from "../../styles/TestimonialsFormStyles";
-import { TextField, Button } from "@mui/material";
+import { TextField, Button, Box } from "@mui/material";
 import { useFormik } from "formik";
 import Editor from "../Editor/Editor";
 import * as Yup from "yup";
-import { privatePOST, privatePATCH } from "../../../Services/privateApiService";
 import { convertToBase64 } from '../../../helpers/base64'
-import { useParams, useLocation } from 'react-router-dom'
+import { useHistory, useLocation } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { selectAllTestimonials, selectTestimonialsStatus, getTestimonialsById, putTestimonials, postTestimonials, deleteTestimonials } from '../../../redux/Testimonials/testimonialsSlice'
+import { getTestimonialsById, putTestimonials, postTestimonials } from "../../../redux/Testimonials/testimonialsSlice";
+import { sweetAlertMixin } from "../../../Utils/AlertState";
+import Spinner from "../../../shared/Spinner/Spinner";
 
 const validationSchema = Yup.object({
 	name: Yup.string("Ingrese su nombre")
@@ -22,47 +23,39 @@ const validationSchema = Yup.object({
 
 const TestimonialForm = ({ testimonial }) => {
 	const classes = useStyles();
-	const { id } = useParams()
-    const { pathname } = useLocation()    
-    const dispatch = useDispatch()
-	const testimonials = useSelector(selectAllTestimonials)
-    const testimonialsStatus = useSelector(selectTestimonialsStatus)
+	const { state } = useLocation()
+	const dispatch = useDispatch()
+	const { testimonialsId, status } = useSelector(state => state.testimonials)
+	const history = useHistory()
 
 	useEffect(() => {
-        if(pathname.includes('edit') && testimonialsStatus !== 'updated'){
-            dispatch(getTestimonialsById(id))
-        }
-    }, [testimonials, testimonialsStatus, dispatch]);
+		if (state) {
+			dispatch(getTestimonialsById(state.id))
+		}
+	}, []);
 
-	const { setFieldValue, handleSubmit, values, handleChange, touched, errors } = useFormik({
-        enableReinitialize: true,
+	const { setFieldValue, handleSubmit, values, handleChange, touched, errors, handleReset } = useFormik({
+		enableReinitialize: true,
 		initialValues: {
-			name: testimonials?.name || "",
-			description: testimonials?.description ||"",
-			image: testimonials?.image || "",
+			name: testimonialsId?.name || "",
+			description: testimonialsId?.description || "",
+			image: testimonialsId?.image || "",
 		},
 		validationSchema: validationSchema,
-		onSubmit: ( async (values) => {
-            if (testimonial) {
-                privatePATCH(`${process.env.REACT_APP_API_GET_TESTIMONIALS}/${testimonial.id}`, values);
-            }
-            privatePOST(process.env.REACT_APP_API_GET_TESTIMONIALS, values);
+		onSubmit: (async (values) => {
+			if (testimonialsId?.id) {
+				const base64 = await convertToBase64(values.image)
+				values.image = base64
+				values.id = testimonialsId.id
+				dispatch(putTestimonials(values))
+			}
+			else {
+				const base64 = await convertToBase64(values.image)
+				values.image = base64
+				dispatch(postTestimonials(values))
+			}
 
-			if (pathname.includes('edit')) {
-                const base64 = await convertToBase64(values.image)
-                values.image = base64
-                console.log(values)
-                console.log(testimonials)
-                values.id = testimonials.id
-                dispatch(putTestimonials(values))
-            }
-            else {
-                const base64 = await convertToBase64(values.image)
-                values.image = base64
-                dispatch(postTestimonials(values))
-            }
-            
-        })
+		})
 	});
 
 	const [isValidImageFormat, setIsValidImageFormat] = useState(false);
@@ -78,6 +71,20 @@ const TestimonialForm = ({ testimonial }) => {
 		);
 		setFieldValue("image", base64String);
 	};
+
+	useEffect(() => {
+		if (status === "created") {
+			sweetAlertMixin("success", "Se creo correctamente")
+			handleReset()
+		}
+	}, [status])
+
+	useEffect(() => {
+		if (status === "edited") {
+			sweetAlertMixin("success", "Se modifico correctamente")
+			history.push("/backoffice/testimonials");
+		}
+	}, [status])
 
 	return (
 		<form onSubmit={handleSubmit} className={classes.form}>
@@ -107,12 +114,33 @@ const TestimonialForm = ({ testimonial }) => {
 				className={classes.formElement}
 				onChange={(event) => handleImageChange(event)}
 			/>
-			{touched.image && !isValidImageFormat? (
+			{touched.image && !isValidImageFormat ? (
 				<div>El formato de la imágen no es válido {errors.image}</div>
 			) : null}
-			<Button color='secondary' className={classes.formElement} type="submit" variant="contained">
-				Enviar
+			<Button
+				color="secondary"
+				disabled={status === 'loading' ? true : false}
+				variant="contained"
+				fullWidth
+				type="submit"
+				className={classes.button}
+			>
+				{status === 'loading' ? (
+					<Spinner width={30} height={30} color="#000" />
+				) : (
+					'Enviar'
+				)}
 			</Button>
+			<Box>
+				<Button
+					className={classes.finalLink}
+					variant="contained"
+					color="secondary"
+					onClick={() => history.push("/backoffice/testimonials")}
+				>
+					Volver a la lista
+				</Button>
+			</Box>
 		</form>
 	);
 };

@@ -13,22 +13,36 @@ import {
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import { Link } from "react-router-dom";
+import { Link, useHistory,useLocation } from "react-router-dom";
 import useStyles from "../../styles/styledList";
 import { useSelector, useDispatch } from 'react-redux'
-import { selectAllTestimonials, selectTestimonialsStatus, getTestimonials, deleteTestimonials } from '../../../redux/Testimonials/testimonialsSlice'
+import {getTestimonials,deleteTestimonials} from "../../../redux/Testimonials/testimonialsSlice";
+import {sweetAlertConfirm} from "../../../Utils/sweetAlertConfirm"
 
 function SlidesBackOffice() {
 	const classes = useStyles();
-    const testimonials = useSelector(selectAllTestimonials)
-    const testimonialsStatus = useSelector(selectTestimonialsStatus)
+    const {testimonials,status} = useSelector(state => state.testimonials)
 	const dispatch = useDispatch()
+	const history = useHistory()
+	const location = useLocation()
+	const path = location.pathname
 
 	useEffect(() => {
-		if(testimonialsStatus === 'idle' || testimonialsStatus === 'updated'){
+		dispatch(getTestimonials())
+	}, []);
+
+	const handleDelete = async(id) => {
+		const deleteIt = await sweetAlertConfirm()
+		if(deleteIt){
+			dispatch(deleteTestimonials(id))
+		}
+	}
+
+	useEffect(()=>{
+		if(status === "deleted"){
 			dispatch(getTestimonials())
 		}
-	}, [dispatch, testimonialsStatus]);
+	},[status])
 
 	const rowValues = ['Titulo', 'Imágen', 'Descripción', 'Editar', 'Eliminar']
 
@@ -47,8 +61,8 @@ function SlidesBackOffice() {
 				<Table>
 					<TableHead>
 						<TableRow>
-							{rowValues.map((rowName) => (
-								<TableCell align="center" className={classes.tableCell}>
+							{rowValues.map((rowName,index) => (
+								<TableCell align="center" className={classes.tableCell} key={index}>
 									{rowName}
 								</TableCell>
 							))}
@@ -82,8 +96,11 @@ function SlidesBackOffice() {
 									className={classes.tableCell}
 									>
 									<IconButton
+										onClick={()=>history.push(`/backoffice/testimonials/edit`,{
+											id: row.id,
+											path
+										})}
 										component={Link}
-										to={`/backoffice/testimonials/edit/${row.id}`}
 										variant="outlined"
 										color="secondary">
 										<EditIcon />
@@ -94,7 +111,7 @@ function SlidesBackOffice() {
 									className={classes.tableCell}
 									>
 									<IconButton
-										onClick={() => dispatch(deleteTestimonials(row.id))}
+										onClick={() => handleDelete(row.id)}
 										color="secondary"
 										sx={{ cursor: "pointer" }}>
 										<DeleteIcon />

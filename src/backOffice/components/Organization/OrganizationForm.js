@@ -171,10 +171,10 @@ const OrganizationForm = () => {
         <Button
           variant="contained"
           color="secondary"
-          onClick={() => history.replace('/backoffice/organization')}
+          onClick={() => history.push('/backoffice/organization')}
           className={classes.buttonBack}
         >
-          Volver
+          Volver a la lista
         </Button>
       </form>
     </Container>

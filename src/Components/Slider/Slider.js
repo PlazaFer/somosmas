@@ -47,6 +47,8 @@ const Slider = () => {
   const dispatch = useDispatch()
   const {slides} = useSelector(state =>state.slides)
 
+  // const slidesLimited = slides.slice(0, 3);
+
   useEffect(() => {
       dispatch(fetchSlides())
   }, []);
@@ -67,13 +69,6 @@ const Slider = () => {
     setActiveStep(step)
   }
 
- /*  useEffect(() => {
-    const getData = async () => {
-      const { data } = await getSlides(3);
-      setSlides(data);
-    }
-    getData();
-  }, []) */
 
   const classes = useStyles()
 

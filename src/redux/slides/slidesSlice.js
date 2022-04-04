@@ -37,7 +37,7 @@ const sliderSlice = createSlice({
     },
     [fetchSlides.fulfilled]: (state, { payload }) => {
       state.status = 'success'
-      state.slides = payload.data
+      state.slides = payload.data.slice(0,3)
       state.slidesId = null
     },
     [fetchSlides.rejected]: (state, { error }) => {

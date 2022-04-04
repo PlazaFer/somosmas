@@ -58,7 +58,7 @@ const OrganizationScreen = () => {
               />
             </TableCell>
             <TableCell align="center" className={classes.tableCell} sx={{maxWidth: 50}}>
-              {parse(organizations.short_description)}
+              {parse(`${organizations.short_description}`)}
             </TableCell>
             <TableCell align="center" className={classes.tableCell}>
               <FontAwesomeIcon 

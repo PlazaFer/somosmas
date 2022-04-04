@@ -42,7 +42,7 @@ const testimonialsSlice = createSlice({
       state.status = 'loading'
     },
     [getTestimonials.fulfilled]: (state, { payload }) => {
-      state.status = 'succeeded'
+      state.status = 'success'
       state.testimonialsID = null
       state.testimonials = payload.data
     },

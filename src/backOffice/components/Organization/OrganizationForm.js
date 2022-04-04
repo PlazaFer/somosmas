@@ -1,121 +1,184 @@
-import { Button, TextField, Typography } from '@mui/material'
-import React from 'react'
-import useStyles from "../../../Components/Auth/AuthStyles"
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useLocation, useHistory } from "react-router-dom";
+import { useFormik } from "formik";
 import * as yup from "yup";
-import Editor from '../Editor/Editor';
-import { useFormik } from 'formik';
+import {
+  getOrganizationByID,
+  putOrganization,
+} from "../../../redux/Organization/organizationSlice";
+import { convertToBase64 } from "../../../helpers/base64";
+import { Button, TextField, Typography, Container, Paper } from "@mui/material";
+import Spinner from "../../../shared/Spinner/Spinner";
+import Editor from "../Editor/Editor";
+import { useStyles } from "./styles/organizationFormStyles";
+import { sweetAlertMixin } from "../../../Utils/AlertState";
 
 const OrganizationForm = () => {
-    const classes = useStyles();
+  const history = useHistory();
+  const { state } = useLocation();
+  const classes = useStyles();
+  const dispatch = useDispatch();
+  const { organizationID, status } = useSelector((state) => state.organization);
 
-    const isValidUrl = (url) => {
-        try {
-            new URL(url);
-        } catch (e) {
-            return false;
-        }
-        return true;
-    };
+  useEffect(() => {
+    dispatch(getOrganizationByID(state));
+  }, [dispatch]);
 
-    const organizationSchema = yup.object().shape({
+  const isValidUrl = (url) => {
+    try {
+      new URL(url);
+    } catch (e) {
+      return false;
+    }
+    return true;
+  };
 
-        name: yup.string()
+  const organizationSchema = yup.object().shape({
+    name: yup.string().required("El campo es obligatorio"),
+    long_description: yup.string().required("El campo es obligatorio"),
+    linkedin_url: yup
+      .string()
+      .required("El campo es obligatorio")
+      .test("type", "La url no es valida", (value) => isValidUrl(value)),
+    logo: yup
+      .mixed()
+      .required("La imagen es obligatorio")
+      .test("type", "Solo imagenes png y jpg", (value) => {
+        return (
+          value &&
+          (["image/jpg"].includes(value.type) ||
+            ["image/png"].includes(value.type))
+        );
+      }),
+    short_description: yup.string().required("El campo es obligatorio"),
+  });
 
-            .required('El campo es obligatorio'),
-
-        longDescription: yup.string()
-
-            .required('El campo es obligatorio'),
-
-        redSocial: yup.string()
-            .required("El campo es obligatorio")
-            .test("type","La url no es valida",  (value) => isValidUrl(value))
-        ,
-
-        image: yup
-            .mixed()
-            .required("La imagen es obligatorio")
-            .test(
-                "type",
-                "Solo imagenes png y jpg",
-                (value) => {
-                    return value && (["image/jpg"].includes(value.type) || ["image/png"].includes(value.type))
-                }
-            ),
-            description: yup.string()
-            .required("El campo es obligatorio")
-    })
-    
-    const { handleSubmit, touched, errors, setFieldValue, values, handleChange } = useFormik({
-        initialValues: {
-            name: "",
-            image: "",
-            shortDescription: "",
-            longDescription: "",
-            redSocial: "",
-        },
-        validationSchema: organizationSchema,
-        onSubmit: (values) => {
-
-        }
+  const { handleSubmit, touched, errors, setFieldValue, values, handleChange, handleBlur } =
+    useFormik({
+      enableReinitialize: true,
+      initialValues: {
+        name: organizationID?.name || "",
+        logo: organizationID?.logo || "",
+        short_description: organizationID?.short_description || "",
+        long_description: organizationID?.long_description || "",
+        linkedin_url: organizationID?.linkedin_url || "",
+      },
+      validationSchema: organizationSchema,
+      onSubmit: async (values) => {
+        const base64 = await convertToBase64(values.logo);
+        values.logo = base64;
+        values.id = organizationID.id;
+        dispatch(putOrganization(values))
+      },
     });
 
-    return (
-        <form className={classes.containerForm} onSubmit={handleSubmit}>
-            <TextField
-                label="Nombre"
-                className={classes.fieldForm}
-                type="text"
-                name='name'
-                onChange={handleChange}
-                error={touched.name && Boolean(errors.name)}
-                helperText={touched.name && errors.name}
-                fullWidth
-                value={values.name}
-            />
+    useEffect(() => {
+      if(status === 'edited'){
+        sweetAlertMixin('success', 'Se edito exitosamente')
+      }
+    }, [status])
 
-            <TextField
-                className={classes.fieldForm}
-                type="file"
-                name="image"
-                fullWidth
-                onChange={(e) => setFieldValue("image", e.target.files[0])}
-                error={touched.image && Boolean(errors.image)}
-                helperText={touched.image && errors.image}
-            />
+  return (
+    <Container className={classes.container}>
+      <form className={classes.containerForm} onSubmit={handleSubmit}>
+        <Paper elevation={5} className={classes.paper}>
+          <Typography className={classes.title} variant="h5">
+            Editar Organizacion
+          </Typography>
+          <TextField
+            label="Nombre"
+            className={classes.inputs}
+            type="text"
+            name="name"
+            onChange={handleChange}
+            onBlur={handleBlur}
+            error={touched.name && Boolean(errors.name)}
+            helperText={touched.name && errors.name}
+            fullWidth
+            value={values.name}
+          />
 
-            <Editor text={values.shortDescription} onChangeText={(shortDescription) => {
-                setFieldValue("shortDescription", shortDescription)
-            }} />
-            {handleSubmit && errors.description &&
-                <Typography sx={{ paddingLeft: "11px" }} variant="caption" color="error">{touched.description && errors.description ? errors.description : null}</Typography>
-            }
+          <TextField
+            className={classes.inputs}
+            type="file"
+            name="logo"
+            fullWidth
+            onChange={(e) => setFieldValue("logo", e.target.files[0])}
+            onBlur={handleBlur}
+            error={touched.logo && Boolean(errors.logo)}
+            helperText={touched.logo && errors.logo}
+          />
 
-            <TextField
-                label="Descripción"
-                className={classes.fieldForm}
-                type="text"
-                name="longDescription "
-                onChange={handleChange}
-                fullWidth
-                error={touched.longDescription && Boolean(errors.longDescription)}
-                helperText={touched.longDescription && errors.longDescription}
-            />
-            <TextField
-                label="Red social"
-                className={classes.fieldForm}
-                type="text"
-                name="redSocial"
-                fullWidth
-                onChange={handleChange}
-                error={touched.redSocial && Boolean(errors.redSocial)}
-                helperText={touched.redSocial && errors.redSocial}
-            />
+          <TextField
+            label="Descripción"
+            className={classes.inputs}
+            type="text"
+            name="long_description"
+            onChange={handleChange}
+            onBlur={handleBlur}
+            value={values.long_description}
+            fullWidth
+            error={touched.long_description && Boolean(errors.long_description)}
+            helperText={touched.long_description && errors.long_description}
+          />
+          <Editor
+            text={values.short_description}
+            onChangeText={(short_description) => {
+              setFieldValue("short_description", short_description);
+            }}
+          />
+          {handleSubmit && errors.short_description && (
+            <Typography
+              sx={{ paddingLeft: "11px" }}
+              variant="caption"
+              color="error"
+            >
+              {touched.short_description && errors.short_description
+                ? errors.short_description
+                : null}
+            </Typography>
+          )}
 
-            <Button color="secondary" variant="contained" fullWidth type="submit">Enviar</Button>
+          <TextField
+            label="Linkedin"
+            className={classes.inputs}
+            type="text"
+            name="linkedin_url"
+            value={values.linkedin_url}
+            onBlur={handleBlur}
+            fullWidth
+            onChange={handleChange}
+            error={touched.linkedin_url && Boolean(errors.linkedin_url)}
+            helperText={touched.linkedin_url && errors.linkedin_url}
+          />
 
-        </form>
-    )
-}
+          <Button
+            color="secondary"
+            disabled={status == "loading" ? true : false}
+            variant="contained"
+            fullWidth
+            type="submit"
+            className={classes.button}
+          >
+            {status == "loading" ? (
+              <Spinner width={30} height={30} color="#000" />
+            ) : (
+              "Editar"
+            )}
+          </Button>
+        </Paper>
+        <Button
+          variant="contained"
+          color="secondary"
+          onClick={() => history.replace('/backoffice/organization')}
+          className={classes.buttonBack}
+        >
+          Volver
+        </Button>
+      </form>
+    </Container>
+  );
+};
 
-export default OrganizationForm
+export default OrganizationForm;

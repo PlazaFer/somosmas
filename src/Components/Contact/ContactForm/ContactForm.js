@@ -9,11 +9,11 @@ import {
   Container,
   Paper,
 } from "@mui/material";
-import Editor from "../../backOffice/components/Editor/Editor";
-import Spinner from "../../shared/Spinner/Spinner";
+import Editor from "../../../backOffice/components/Editor/Editor";
+import Spinner from "../../../shared/Spinner/Spinner";
 import useStyles from "./StyleContactForm";
-import { postContacts } from "../../Services/ContactApiService";
-import { sweetAlertMixin } from "../../Utils/AlertState";
+import { postContacts } from "../../../Services/ContactApiService";
+import { sweetAlertMixin } from "../../../Utils/AlertState";
 
 const validationSchema = yup.object({
   email: yup

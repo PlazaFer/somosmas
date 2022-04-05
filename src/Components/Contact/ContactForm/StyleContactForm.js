@@ -3,8 +3,9 @@ import { makeStyles } from '@mui/styles'
 const useStyles = makeStyles((theme) => ({
   containerForm: {
     paddingTop: '20px',
-    maxWidth: '70%',
-    marginBottom: '40px',
+    maxWidth: '700px',
+    minWidth: '270px',
+    margin: '0px auto 40px auto',
   },
   fieldForm: {
     marginTop: '20px !important',

@@ -1,8 +1,9 @@
 import React from 'react'
-import { Container } from '@mui/material'
-import DecorativeLine from './../DecorativeLine/DecorativeLine'
-import ContactForm from '../ContactForm/ContactForm'
+import { Map } from './Map/Map'
+import ContactForm from './ContactForm/ContactForm'
+import { Container, Box } from '@mui/material'
 import useStyles from './contactoStyles'
+import { ViasComunicacion } from './ViasComunicacion/ViasComunicacion'
 
 
 const Contacto = () => {
@@ -12,6 +13,10 @@ const Contacto = () => {
     <>
       <Container className={classes.container}>
         <ContactForm />
+        <Box className={classes.containerMap}>
+          <Map />
+          <ViasComunicacion />
+        </Box>
       </Container>
     </>
   )

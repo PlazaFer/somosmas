@@ -79,6 +79,7 @@ const NewsForm = (id) => {
       } else if (!errorCategory) {
         const base64 = await convertToBase64(values.image)
         values.image = base64
+        console.log(values)
         dispatch(postNews(values))
       }
     },

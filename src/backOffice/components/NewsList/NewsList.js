@@ -1,3 +1,4 @@
+import { useRef } from 'react'
 import { Link, useLocation, useHistory } from 'react-router-dom'
 import {
   Table,
@@ -57,6 +58,29 @@ const NewsList = () => {
 
   const tableTitles = ['Nombre', 'Imagen', 'Fecha', 'Modificar', 'Eliminar']
 
+  const debounceRef = useRef();
+
+  const handleChange = (e) => {
+
+    if(debounceRef.current){
+      clearInterval(debounceRef.current);
+    }
+
+    if(e.target.value.length > 0 && e.target.value.length <= 2){
+      debounceRef.current = setTimeout(() => {
+        if(e.target.value >= 3) return
+        console.log('debounce menor a 3', e.target.value)
+      }, 1000)
+    }
+
+    if(e.target.value.length >= 3){
+      debounceRef.current = setTimeout(() => {
+        console.log('debounce 3:', e.target.value)
+        return
+      }, 1000)
+    }
+  }
+
   return (
     <>
       <IconButton 
@@ -72,6 +96,14 @@ const NewsList = () => {
           <Link to={`${path}/create-news`} className={classes.styleLink}>
             <Button color='secondary' variant='contained'>Crear Novedad</Button>
           </Link>
+        </Box>
+        <Box>
+          <input 
+            type='text'
+            name='search'
+            placeholder='Buscar Novedad'
+            onChange={handleChange}
+          />
         </Box>
 
         <TableContainer component={Paper} className={classes.containerList}>

@@ -41,6 +41,7 @@ export const useStyles = makeStyles((theme) => ({
       },
       link:{
         textDecoration: 'none',
+        cursor: 'pointer',
         marginLeft: 25,
         color: '#000',
         '&:hover':{

@@ -51,5 +51,9 @@ export const useStyles = makeStyles((theme) => ({
         textDecoration: 'none',
         marginLeft: 25,
         marginRight: 10
+      },
+      menuLink:{
+        textDecoration: 'none',
+        color: '#000',
       }
 }));

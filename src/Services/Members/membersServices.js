@@ -6,6 +6,10 @@ const getAllMembers = () => {
     return privateGET(MEMBERS_URL)
 }
 
+const getMembersByTitle = (params) => {
+    return privateGET(`${MEMBERS_URL}${params}`)
+}
+
 const getMemberById = (id) => {
     return privateGET(MEMBERS_URL, id)
 }
@@ -26,4 +30,4 @@ const deleteMember = (id) => {
     return privateDelete(MEMBERS_URL, id)
 }
 
-export { getAllMembers, getMemberById, postMember, patchMember, putMember, deleteMember }
+export { getAllMembers, getMemberById, postMember, patchMember, putMember, deleteMember, getMembersByTitle }

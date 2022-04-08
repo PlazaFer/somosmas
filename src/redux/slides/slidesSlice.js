@@ -1,8 +1,12 @@
-import { createSlice, nanoid, createAsyncThunk } from '@reduxjs/toolkit'
-import { getAllSlides, getSlideById, deleteSlide, putSlide, postSlide } from '../../Services/slider/slidesService'
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import { getAllSlides, getSlideById, deleteSlide, putSlide, postSlide, getSlidesByTitle} from '../../Services/slider/slidesService'
 
-export const fetchSlides = createAsyncThunk('slider/fetchSlides', () => {
-  return getAllSlides()
+export const fetchSlides = createAsyncThunk('slider/fetchSlides', (params) => {
+  if(!params){
+    return getAllSlides();
+  }else{
+    return getSlidesByTitle(params);
+  }
 })
 
 export const getSlidesById = createAsyncThunk('slider/getSlideId', (id) => {

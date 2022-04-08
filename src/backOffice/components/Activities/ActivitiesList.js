@@ -1,14 +1,14 @@
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Box, Button,
-    Container, IconButton } from '@mui/material';
+import { useRef } from 'react';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Box, Button, Container, Toolbar, TextField, InputAdornment } from '@mui/material';
 import useStyles from '../../styles/styledList';
 import { Link, useLocation, useHistory } from 'react-router-dom'
 import { getActivity,deleteActivity } from '../../../redux/Activities/activitySlice'
 import Delete from '@mui/icons-material/Delete'
 import ModeEdit from '@mui/icons-material/ModeEdit'
+import SearchIcon from '@mui/icons-material/Search';
 import { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { sweetAlertConfirm } from '../../../Utils/sweetAlertConfirm'
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
   const ActivitiesList = () => {
   const location = useLocation()
@@ -39,26 +39,54 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
   .slice()
   .sort((a, b) => b.created_at.localeCompare(a.created_at))
 
-const tableTitles = ['Nombre', 'Imagen', 'Fecha', 'Modificar', 'Eliminar']
+  const tableTitles = ['Nombre', 'Imagen', 'Fecha', 'Modificar', 'Eliminar']
+
+  const debounceRef = useRef();
+
+  const handleChange = (e) => {
+
+    if(debounceRef.current){
+      clearInterval(debounceRef.current);
+    }
+
+    if(e.target.value.length <= 2){
+      debounceRef.current = setTimeout(() => {
+        dispatch(getActivity());
+      }, 300)
+    }
+
+    if(e.target.value.length >= 3){
+      debounceRef.current = setTimeout(() => {
+        dispatch(getActivity(`?search=${e.target.value}`));
+      }, 300)
+    }
+  }
 
   return (
     <>
-      <IconButton 
-        aria-label="upload picture" 
-        component="span" 
-        className={classes.buttonBack}
-        onClick={() => history.goBack()}
-      >
-        <ArrowBackIcon className={classes.iconButtonBack} />
-      </IconButton>
+      <Toolbar></Toolbar>
       <Container className={classes.containerList}>
-        <Box className={classes.contLink}>
+        <Box className={classes.containerButtonSearch}>
+        <Box>
           <Link to={`${path}/create-activity`} className={classes.styleLink}>
             <Button color='secondary' variant='contained'>Crear Actividad</Button>
           </Link>
         </Box>
+        <Box>
+        <TextField
+          label="Buscar actividad"
+          name='search'
+          type='text'
+          InputProps={{
+            startAdornment: <InputAdornment position="start"><SearchIcon sx={{color: '#000'}}/></InputAdornment>,
+          }}
+          variant="standard"
+          onChange={handleChange}
+        />
+        </Box>
+        </Box>
 
-        <TableContainer component={Paper} className={classes.containerList}>
+        <TableContainer component={Paper} className={classes.containerTable}>
           <Table>
             <TableHead>
               <TableRow className={classes.tableRow}>

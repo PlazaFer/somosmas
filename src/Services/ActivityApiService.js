@@ -6,6 +6,10 @@ export const getActivities = () => {
 	return  privateGET(ACTIVITIES_URL)
 }
 
+export const getActivitiesByTitle = (params) => {
+	return privateGET(`${ACTIVITIES_URL}${params}`)
+}
+
 export const getActivitiesId =  (id) => {
 	return privateGET(`${ACTIVITIES_URL}/${id}`)
 }

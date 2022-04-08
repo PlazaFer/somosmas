@@ -5,11 +5,17 @@ import {
   postedNews,
   deletedNews,
   putsNews,
+  getNewsByTitle,
 } from '../../Services/newsSevices'
 
-export const getNews = createAsyncThunk('news/getNews', () => {
-  const response = getAllNews()
-  return response
+export const getNews = createAsyncThunk('news/getNews', (params) => {
+  if(!params){
+    const response = getAllNews()
+    return response
+  }else{
+    const response = getNewsByTitle(params);
+    return response
+  }
 })
 
 export const getNewsById = createAsyncThunk('news/getNewsById', (id) => {

@@ -1,8 +1,14 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import privateGET, { privateDelete, privatePOST, privatePUT } from "../../Services/privateApiService";
 
-export const getMembers = createAsyncThunk("members/getMembers",  () => {
-  return  privateGET("https://ongapi.alkemy.org/api/members")
+export const getMembers = createAsyncThunk("members/getMembers",  (params) => {
+  if(!params){
+    const response = privateGET("https://ongapi.alkemy.org/api/members")
+    return response
+  }else{
+    const response =  privateGET(`https://ongapi.alkemy.org/api/members${params}`);
+    return response
+  }
 });
 
 export const getMembersById = createAsyncThunk("members/getMembersByID", (id) => {

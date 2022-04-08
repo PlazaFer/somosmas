@@ -1,9 +1,14 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { getActivities, getActivitiesId, postActivities, deleteActivities, updateActivities } from '../../Services/ActivityApiService'
+import { getActivities, getActivitiesId, postActivities, deleteActivities, updateActivities, getActivitiesByTitle } from '../../Services/ActivityApiService'
 
-export const getActivity = createAsyncThunk('activities/getActivity', () => {
+export const getActivity = createAsyncThunk('activities/getActivity', (params) => {
+  if(!params){
     const response = getActivities()
     return response
+  }else{
+    const response = getActivitiesByTitle(params)
+    return response
+  }
 })
 
 export const getActivityById = createAsyncThunk('activities/getActivityById', (id) => {

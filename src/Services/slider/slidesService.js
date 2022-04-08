@@ -6,6 +6,10 @@ const getAllSlides = async () => {
     return await privateGET(SLIDES_URL)
 }
 
+const getSlidesByTitle = async (params) => {
+    return await privateGET(`${SLIDES_URL}${params}`);
+}
+
 const getSlideById = async (id) => {
     return await privateGET(SLIDES_URL, id)
 }
@@ -26,4 +30,4 @@ const deleteSlide = async (id) => {
     return await privateDelete(SLIDES_URL, id)
 }
 
-export { getAllSlides, getSlideById, postSlide, patchSlide, putSlide, deleteSlide }
+export { getAllSlides, getSlideById, postSlide, patchSlide, putSlide, deleteSlide, getSlidesByTitle }

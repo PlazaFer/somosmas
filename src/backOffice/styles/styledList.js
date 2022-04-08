@@ -13,16 +13,17 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.primary.main,
     cursor: 'pointer',
   },
-  contLink: {
-    minWidth: 400,
-    maxWidth: 1200,
-    margin: 'auto',
-    padding: '10px',
-  },
   img: {
     minWidth: 100,
     maxWidth: 400,
     objectFit: 'contain',
+  },
+  containerButtonSearch:{
+    width: '100%',
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    margin: '50px 0px 10px 0px'
   },
   tableCell: {
     [`&.${tableCellClasses.head}`]: {

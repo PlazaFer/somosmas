@@ -7,6 +7,10 @@ export const getUsersService = () => {
     return privateGET(USER_URL)
 }
 
+export const getUsersByTitle = (params) => {
+    return privateGET(`${USER_URL}${params}`)
+}
+
 export const getUsersIDService = (id) => {
     return privateGET(`${USER_URL}/${id}`)
 }

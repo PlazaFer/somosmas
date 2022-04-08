@@ -25,5 +25,5 @@ export const useStyles = makeStyles((theme) => ({
   },
   logoHeader: {
     width: "90px",
-  },
+  }
 }));

@@ -9,6 +9,9 @@ const NEWS_URL = process.env.REACT_APP_API_GET_NEWS
 export const getAllNews = () => {
   return privateGET(NEWS_URL)
 }
+export const getNewsByTitle = (params) => {
+  return privateGET(`${NEWS_URL}${params}`)
+}
 export const getNewById = (id) => {
   return privateGET(`${NEWS_URL}/${id}`)
 }

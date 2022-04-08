@@ -10,6 +10,7 @@ import SpeakerNotesIcon from '@mui/icons-material/SpeakerNotes';
 import PersonIcon from '@mui/icons-material/Person';
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 const Sidebar = ({ variant, open, onClose }) => {
 
@@ -52,12 +53,13 @@ const Sidebar = ({ variant, open, onClose }) => {
       link: "/backoffice/members/create",
       icon: <PeopleAltIcon color='secondary' />,
     },
-    // {
-    //     name: "Crear Proyecto",
-    //     link: "/backoffice/create-project`"
-    // },
     {
-      name: "Volver a la ONG",
+        name: "Backoffice",
+        link: "/backoffice",
+        icon: <ArrowBackIcon color='secondary' />
+    },
+    {
+      name: "ONG",
       link: "/",
       icon: <ExitToAppIcon color='secondary' />
     },

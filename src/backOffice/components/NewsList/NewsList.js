@@ -1,3 +1,4 @@
+import { useRef } from 'react'
 import { Link, useLocation, useHistory } from 'react-router-dom'
 import {
   Table,
@@ -10,8 +11,12 @@ import {
   Paper,
   Button,
   Container,
-  IconButton
+  IconButton,
+  TextField,
+  InputAdornment,
+  Toolbar
 } from '@mui/material'
+import SearchIcon from '@mui/icons-material/Search';
 import Delete from '@mui/icons-material/Delete'
 import ModeEdit from '@mui/icons-material/ModeEdit'
 import { useEffect } from 'react'
@@ -22,8 +27,7 @@ import {
   deleteNews,
 } from '../../../redux/NewsReducers/newsReducerThunk'
 import { sweetAlertConfirm } from '../../../Utils/sweetAlertConfirm'
-import { sweetAlertMixin } from '../../../Utils/AlertState'
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+
 
 const NewsList = () => {
   const location = useLocation()
@@ -57,21 +61,49 @@ const NewsList = () => {
 
   const tableTitles = ['Nombre', 'Imagen', 'Fecha', 'Modificar', 'Eliminar']
 
+  const debounceRef = useRef();
+
+  const handleChange = (e) => {
+
+    if(debounceRef.current){
+      clearInterval(debounceRef.current);
+    }
+
+    if(e.target.value.length <= 2){
+      debounceRef.current = setTimeout(() => {
+        dispatch(getNews());
+      }, 300)
+    }
+
+    if(e.target.value.length >= 3){
+      debounceRef.current = setTimeout(() => {
+        dispatch(getNews(`?search=${e.target.value}`));
+      }, 300)
+    }
+  }
+
   return (
     <>
-      <IconButton 
-        aria-label="upload picture" 
-        component="span" 
-        className={classes.buttonBack}
-        onClick={() => history.goBack()}
-      >
-        <ArrowBackIcon className={classes.iconButtonBack} />
-      </IconButton>
+    <Toolbar></Toolbar>
       <Container className={classes.containerList}>
-        <Box className={classes.contLink}>
+        <Box className={classes.containerButtonSearch}>
+        <Box>
           <Link to={`${path}/create-news`} className={classes.styleLink}>
             <Button color='secondary' variant='contained'>Crear Novedad</Button>
           </Link>
+        </Box>
+        <Box>
+        <TextField
+          label="Buscar novedad"
+          name='search'
+          type='text'
+          InputProps={{
+            startAdornment: <InputAdornment position="start"><SearchIcon sx={{color: '#000'}}/></InputAdornment>,
+          }}
+          variant="standard"
+          onChange={handleChange}
+        />
+        </Box>
         </Box>
 
         <TableContainer component={Paper} className={classes.containerList}>

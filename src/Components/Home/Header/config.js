@@ -1,6 +1,6 @@
 
 export 
-const headerData = [
+const headerDataResposive = [
   {
     name: "Inicio",
     url: "/"
@@ -26,3 +26,18 @@ const headerData = [
     url: "/donation"
   },
 ];
+
+export const headerData = [
+  {
+    name: "Inicio",
+    url: "/"
+  },
+  {
+    name: "Nosotros",
+    url: "/nosotros"
+  },
+  {
+    name: "Contacto",
+    url: "/contacto"
+  }
+]

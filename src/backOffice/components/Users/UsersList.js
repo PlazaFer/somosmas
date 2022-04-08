@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation, useHistory } from "react-router-dom";
 import {
@@ -11,15 +11,17 @@ import {
   Paper,
   Container,
   Button,
-  IconButton,
-  Box
+  Box,
+  InputAdornment,
+  TextField,
+  Toolbar
 } from "@mui/material";
 import { getUsers, deleteUser } from "../../../redux/Users/userSlice";
 import { sweetAlertConfirm } from "../../../Utils/sweetAlertConfirm";
 import Spinner from '../../../shared/Spinner/Spinner';
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import SearchIcon from '@mui/icons-material/Search';
 import useStyles from "../../styles/styledList";
 import DecorativeLineBW from "../../../Components/DecorativeLine/DecorativeLine";
 
@@ -55,16 +57,29 @@ const UsersList = () => {
     }
   };
 
+  const debounceRef = useRef();
+
+  const handleChange = (e) => {
+
+    if(debounceRef.current){
+      clearInterval(debounceRef.current);
+    }
+
+    if(e.target.value.length <= 2){
+      debounceRef.current = setTimeout(() => {
+        dispatch(getUsers());
+      }, 600)
+    }
+
+    if(e.target.value.length >= 3){
+      debounceRef.current = setTimeout(() => {
+        dispatch(getUsers(`?search=${e.target.value}`));
+      }, 600)
+    }
+  }
+
   return (
     <>
-    <IconButton 
-      aria-label="upload picture" 
-      component="span" 
-      className={classes.buttonBack} 
-      onClick={() => history.goBack()}
-    >
-      <ArrowBackIcon className={classes.iconButtonBack} />
-    </IconButton>
     {
       status === 'loading' 
       ? 
@@ -75,13 +90,29 @@ const UsersList = () => {
           height={80}
         />
       </Box>
-      :
+    :
+    <>
+    <Toolbar></Toolbar>
     <Container className={classes.containerList}>
-      <div className={classes.contLink}>
+      <Box className={classes.containerButtonSearch}>
+      <Box>
         <Link to={`${path}/create-user`} className={classes.styleLink}>
           <Button variant="contained" color="secondary">Crear Usuario</Button>
         </Link>
-      </div>
+      </Box>
+      <Box>
+      <TextField
+          label="Buscar usuario"
+          name='search'
+          type='text'
+          InputProps={{
+            startAdornment: <InputAdornment position="start"><SearchIcon sx={{color: '#000'}}/></InputAdornment>,
+          }}
+          variant="standard"
+          onChange={handleChange}
+        />
+        </Box>
+        </Box>
 
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 700 }} aria-label="customized table">
@@ -140,6 +171,7 @@ const UsersList = () => {
       </TableContainer>
       <DecorativeLineBW></DecorativeLineBW>
     </Container>
+    </>
     }
     </>
   );

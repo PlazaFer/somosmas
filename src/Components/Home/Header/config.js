@@ -35,9 +35,5 @@ export const headerData = [
   {
     name: "Nosotros",
     url: "/nosotros"
-  },
-  {
-    name: "Contacto",
-    url: "/contacto"
   }
 ]

@@ -41,6 +41,14 @@ export const Appbar = ({ handleLogout }) => {
                   {links.name}
                 </NavLink>
               ))}
+              {isLogin && rol_type === 'Admin' ? null
+              :
+              <NavLink
+                to='/contacto'
+                className={classes.link}
+              >
+                Contacto
+              </NavLink>}
               <p
                 id="button"
                 aria-controls={open ? "menu" : undefined}

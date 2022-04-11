@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import useStyles from '../../styles/newsFormStyles'
-import { TextField, Button, Container, Paper, Typography, Box } from "@mui/material";
+import { TextField, Button, Container, Paper, Typography, Box,Toolbar } from "@mui/material";
 import { useFormik } from "formik";
 import Editor from "../Editor/Editor";
 import * as Yup from "yup";
@@ -82,59 +82,62 @@ const CategoriesForm = () => {
 	};
 
 	return (
-		<Container className={classes.container}>
-			<form onSubmit={handleSubmit} className={classes.form}>
-				<Paper className={classes.paper} elevation={5}>
-					<Typography className={classes.title} variant="h5">{categoriesById ? 'Editar Categoria' : 'Crear Categoria'}</Typography>
-					<TextField
-						className={classes.inputs}
-						name="name"
-						type="text"
-						value={values.name}
-						onChange={handleChange}
-						onBlur={handleBlur}
-						error={touched.name && errors.name}
-						helperText={touched.name && errors.name}
-						label='Title'
-						fullWidth
-					/>
-					<Editor
-						text={values.description}
-						onChangeText={(data) => {
-							setFieldValue("description", data);
-						}}
-					/>
-					{touched.description && errors.description ? (
-						<div className={classes.errorCkEditor}>{errors.description}</div>
-					) : null}
-					<TextField
-						inputProps={{
-							accept: "image/png, image/jpeg",
-							type: "file",
-						}}
-						fullWidth
-						name="defaultImage"
-						className={classes.inputs}
-						onChange={(event) => handleImageChange(event)}
-					/>
-					{touched.image && !isValidImageFormat ? (
-						<div>El formato de la imágen no es válido {errors.image}</div>
-					) : null}
-					<Button color='secondary' className={classes.button} fullWidth type="submit" variant="contained">
-						{status === 'loading' ? <Spinner width={30} height={30} color='#FFF' /> : 'Enviar'}
-					</Button>
-				</Paper>
-				<Box className={classes.finalLink}>
-					<Button
-						variant="contained"
-						color="secondary"
-						onClick={() => history.push("/backoffice/categories")}
-					>
-						Volver a la lista
-					</Button>
-				</Box>
-			</form>
-		</Container>
+		<>
+			<Toolbar></Toolbar>
+			<Container className={classes.container}>
+				<form onSubmit={handleSubmit} className={classes.form}>
+					<Paper className={classes.paper} elevation={5}>
+						<Typography className={classes.title} variant="h5">{categoriesById ? 'Editar Categoria' : 'Crear Categoria'}</Typography>
+						<TextField
+							className={classes.inputs}
+							name="name"
+							type="text"
+							value={values.name}
+							onChange={handleChange}
+							onBlur={handleBlur}
+							error={touched.name && errors.name}
+							helperText={touched.name && errors.name}
+							label='Title'
+							fullWidth
+						/>
+						<Editor
+							text={values.description}
+							onChangeText={(data) => {
+								setFieldValue("description", data);
+							}}
+						/>
+						{touched.description && errors.description ? (
+							<div className={classes.errorCkEditor}>{errors.description}</div>
+						) : null}
+						<TextField
+							inputProps={{
+								accept: "image/png, image/jpeg",
+								type: "file",
+							}}
+							fullWidth
+							name="defaultImage"
+							className={classes.inputs}
+							onChange={(event) => handleImageChange(event)}
+						/>
+						{touched.image && !isValidImageFormat ? (
+							<div>El formato de la imágen no es válido {errors.image}</div>
+						) : null}
+						<Button color='secondary' className={classes.button} fullWidth type="submit" variant="contained">
+							{status === 'loading' ? <Spinner width={30} height={30} color='#FFF' /> : 'Enviar'}
+						</Button>
+					</Paper>
+					<Box className={classes.finalLink}>
+						<Button
+							variant="contained"
+							color="secondary"
+							onClick={() => history.push("/backoffice/categories")}
+						>
+							Volver a la lista
+						</Button>
+					</Box>
+				</form>
+			</Container>
+		</>
 	);
 };
 

@@ -1,8 +1,9 @@
 import { makeStyles } from '@mui/styles'
-import { height } from '@mui/system'
 
 const useStyles = makeStyles((theme) => ({
   typographySize: {
+    marginLeft: "10px",
+    marginTop : "15px",
     [theme.breakpoints.down('md')]: {
       fontSize: '0.8rem !important',
     },

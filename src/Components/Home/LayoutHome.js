@@ -16,7 +16,7 @@ const LayoutHome = (props) => {
         dispatch(authMe(token))
 
         
-    },[])
+    },[dispatch,token])
     return (
         <>
             <Header />

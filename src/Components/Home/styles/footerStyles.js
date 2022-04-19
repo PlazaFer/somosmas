@@ -10,7 +10,7 @@ const useStyles = makeStyles((theme) => ({
 		
 	},
 	insideContainer:{
-		marginTop: '100px',
+		marginTop: '0px',
 	},
 	footer: {
 		display: "flex",

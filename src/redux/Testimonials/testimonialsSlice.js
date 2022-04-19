@@ -27,85 +27,77 @@ export const putTestimonials = createAsyncThunk('testimonials/putTestimonials', 
   return putTestimonial(values.id, values)
 })
 
-const initialState = {
-	testimonials: {
-		data: [
-			{
-				name: "",
-				description: "",
-				image: "",
-			},
-		],
-	},
-	// slideById: null,
-	status: "idle",
-	error: null,
-};
+
 
 const testimonialsSlice = createSlice({
   name: 'testimonials',
-  initialState,
+  initialState:{
+    testimonials : [],
+    status : null,
+    testimonialsID: null,
+  },
   extraReducers: {
     [getTestimonials.pending]: (state) => {
       state.status = 'loading'
     },
     [getTestimonials.fulfilled]: (state, { payload }) => {
-      state.status = 'succeeded'
-      state.testimonials.data = payload.data
+      state.status = 'success'
+      state.testimonialsID = null
+      state.testimonials = payload.data
     },
-    [getTestimonials.rejected]: (state, { error }) => {
+    [getTestimonials.rejected]: (state) => {
       state.status = 'failed'
-      state.error = error.message
     },
 
     [deleteTestimonials.pending]: (state) => {
       state.status = 'loading'
     },
     [deleteTestimonials.fulfilled]: (state) => {
-      state.status = 'updated'
+      state.status = 'deleted'
     },
-    [deleteTestimonials.rejected]: (state, { error }) => {
+    [deleteTestimonials.rejected]: (state) => {
       state.status = 'failed'
-      state.error = error.message
     },
 
     [getTestimonialsById.pending]: (state) => {
       state.status = 'loading'
     },
     [getTestimonialsById.fulfilled]: (state, { payload }) => {
-      state.status = 'updated'
-      state.testimonials.data = payload.data
+      if(payload.success){
+        state.testimonialsID = payload.data
+        state.status ="success";
+      }
+      else{
+        state.status ="failed"
+      }
     },
     [getTestimonialsById.rejected]: (state, { error }) => {
       state.status = 'failed'
-      state.error = error.message
     },
 
     [putTestimonials.pending]: (state) => {
       state.status = 'loading'
     },
     [putTestimonials.fulfilled]: (state,) => {
-      state.status = 'updated'
+      state.status = 'edited'
     },
-    [putTestimonials.rejected]: (state, { error }) => {
+    [putTestimonials.rejected]: (state) => {
       state.status = 'failed'
-      state.error = error.message
     },
 
     [postTestimonials.pending]: (state) => {
       state.status = 'loading'
     },
     [postTestimonials.fulfilled]: (state,) => {
-      state.status = 'updated'
+      state.status = 'created'
     },
-    [postTestimonials.rejected]: (state, { error }) => {
+    [postTestimonials.rejected]: (state) => {
       state.status = 'failed'
-      state.error = error.message
     },
   }
 })
 
-export const selectAllTestimonials = state => state.testimonials.testimonials.data
+export const selectAllTestimonials = state => state.testimonials.testimonials
 export const selectTestimonialsStatus = state => state.testimonials.status
 
 export default testimonialsSlice.reducer

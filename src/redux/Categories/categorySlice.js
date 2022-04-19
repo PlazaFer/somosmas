@@ -1,10 +1,14 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { getCATEGORIES, getCATEGORIESID,postCATEGORY, deleteCATEGORY, putCATEGORY } from '../../Peticiones/catecoriesService';
+import { getCATEGORIES, getCATEGORIESID, postCATEGORY, deleteCATEGORY, putCATEGORY, getCATEGORIESTITLE } from '../../Peticiones/catecoriesService';
 
 
 export const getCategories = createAsyncThunk(
-    "category/getCategories",()=>{
-        return getCATEGORIES();
+    "category/getCategories",(params)=>{
+        if(!params){
+            return getCATEGORIES();
+        }else{
+            return getCATEGORIESTITLE(params);
+        }
     }
 );
 

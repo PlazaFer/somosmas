@@ -4,7 +4,8 @@ import {
   Box,
   Typography,
   Grid,
-  Paper
+  Paper,
+  Toolbar
 } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -25,7 +26,7 @@ const ScreenDashboard = () => {
     { name: "Actividades", icon: faListCheck, path: "/backoffice/activities" },
     { name: "Categorias", icon: faTableList, path: "/backoffice/categories" },
     { name: "Testimonios", icon: faMessage, path: "/backoffice/testimonials" },
-    // { name: "Organizacion", icon: faSitemap, path: "/backoffice/organization" },
+    { name: "Organizacion", icon: faSitemap, path: "/backoffice/organization" },
     { name: "Slides", icon: faSliders, path: "/backoffice/slides" },
     { name: "Usuarios", icon: faUsers, path: "/backoffice/users" },
     { name: "Miembros", icon: faUserGroup, path: "/backoffice/members" },
@@ -36,7 +37,7 @@ const ScreenDashboard = () => {
   return (
       <Grid
         container
-        spacing={5}
+        spacing={2}
         className={classes.container}
       >
         {options.map((option, index) => (

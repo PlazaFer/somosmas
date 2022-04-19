@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import {
   Paper,
   Container,
@@ -9,14 +9,19 @@ import {
   TableHead,
   TableRow,
   Box,
-  TableCell
+  TableCell,
+  InputAdornment,
+  TextField,
+  Toolbar,
+  Button
 } from "@mui/material";
+import SearchIcon from '@mui/icons-material/Search';
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import { Link, useHistory } from "react-router-dom";
 import useStyles from "../../styles/styledList";
 import { useSelector, useDispatch } from 'react-redux'
-import { fetchSlides, deleteSlides, selectAllSlides, selectSlidesStatus } from '../../../redux/slides/slidesSlice'
+import { fetchSlides, deleteSlides } from '../../../redux/slides/slidesSlice'
 import { sweetAlertConfirm } from "../../../Utils/sweetAlertConfirm";
 
 function SlidesBackOffice() {
@@ -42,16 +47,57 @@ function SlidesBackOffice() {
     }
   }, [status]);
 
+  const debounceRef = useRef();
+
+  const handleChange = (e) => {
+
+    if(debounceRef.current){
+      clearInterval(debounceRef.current);
+    }
+
+    if(e.target.value.length <= 2){
+      debounceRef.current = setTimeout(() => {
+        dispatch(fetchSlides());
+      }, 300)
+    }
+
+    if(e.target.value.length >= 3){
+      debounceRef.current = setTimeout(() => {
+        dispatch(fetchSlides(`?search=${e.target.value}`));
+      }, 300)
+    }
+  }
+
   return (
+    <>
+    <Toolbar></Toolbar>
     <Container className={classes.containerList}>
-      <Box className={classes.contLink}>
+      <Box className={classes.containerButtonSearch}>
+      <Box>
         <Link
           exact="true"
           className={classes.styleLink}
           to="/backoffice/Slides/create"
         >
-          Create a new slide
+          <Button
+            color='secondary' variant='contained'
+          >
+            Crear slide
+          </Button>
         </Link>
+      </Box>
+      <Box>
+        <TextField
+          label="Buscar slide"
+          name='search'
+          type='text'
+          InputProps={{
+            startAdornment: <InputAdornment position="start"><SearchIcon sx={{color: '#000'}}/></InputAdornment>,
+          }}
+          variant="standard"
+          onChange={handleChange}
+        />
+        </Box>
       </Box>
 
       <TableContainer component={Paper} className={classes.containerList}>
@@ -105,6 +151,7 @@ function SlidesBackOffice() {
         </Table>
       </TableContainer>
     </Container>
+    </>
   );
 }
 

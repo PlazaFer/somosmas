@@ -1,15 +1,15 @@
-import React, { useEffect} from 'react'
+import React, { useEffect, useRef} from 'react'
 import { Link } from 'react-router-dom'
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography, Container, Button, IconButton } from '@mui/material';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Container, Button, InputAdornment, TextField, Box, Toolbar } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit'
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
+import SearchIcon from '@mui/icons-material/Search';
 import { useSelector, useDispatch } from 'react-redux'
 import { getCategories,deleteCategory } from '../../../redux/Categories/categorySlice'
 import useStyles from '../../styles/styledList'
 import DecorativeLineBW from '../../../Components/DecorativeLine/DecorativeLineBW'
 import { useHistory } from 'react-router-dom';
 import { sweetAlertConfirm } from '../../../Utils/sweetAlertConfirm';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 
 export default function CategoriesList() {
@@ -38,20 +38,50 @@ export default function CategoriesList() {
   
   let orderedCategories = categories.map((e) => e).sort((a, b) => Date.parse(b.created_at) - Date.parse(a.created_at));
 
+  const debounceRef = useRef();
+
+  const handleChange = (e) => {
+
+    if(debounceRef.current){
+      clearInterval(debounceRef.current);
+    }
+
+    if(e.target.value.length <= 2){
+      debounceRef.current = setTimeout(() => {
+        dispatch(getCategories());
+      }, 300)
+    }
+
+    if(e.target.value.length >= 3){
+      debounceRef.current = setTimeout(() => {
+        dispatch(getCategories(`?search=${e.target.value}`));
+      }, 300)
+    }
+  }
+
   return (
     <>
-      <IconButton 
-        component="span"
-				className={classes.buttonBack}
-				onClick={()=>history.push('/backoffice')}>
-        <ArrowBackIcon className={classes.iconButtonBack}/>
-      </IconButton>
+    <Toolbar></Toolbar>
       <Container className={classes.containerList}>
-        <div className={classes.contLink}>
+        <Box className={classes.containerButtonSearch}>
+        <Box>
           <Link to="/backoffice/categories/create" className={classes.styleLink}>
             <Button color='secondary' variant='contained'>Crear Categoria</Button>
           </Link>
-        </div>
+        </Box>
+        <Box>
+        <TextField
+          label="Buscar categoria"
+          name='search'
+          type='text'
+          InputProps={{
+            startAdornment: <InputAdornment position="start"><SearchIcon sx={{color: '#000'}}/></InputAdornment>,
+          }}
+          variant="standard"
+          onChange={handleChange}
+        />
+        </Box>
+        </Box>
 
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 700 }} aria-label="customized table">

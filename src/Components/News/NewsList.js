@@ -3,9 +3,8 @@ import { getNews } from '../../redux/NewsReducers/newsReducerThunk'
 import CardComponent from '../Card/CardComponent'
 import DecorativeLine from '../DecorativeLine/DecorativeLine'
 import { useHistory } from 'react-router-dom'
-import { Container, Grid } from '@mui/material'
+import { Container, Grid, Typography, Box } from '@mui/material'
 import useStyles from './styles/novedadesStyles'
-import ActivityContent from '../Activities/AntivityContent'
 import { useSelector, useDispatch } from 'react-redux'
 
 const NewsList = () => {
@@ -26,24 +25,36 @@ const NewsList = () => {
 
   return (
     <Container>
-      <h2>Ultimas Novedades</h2>
-      <Container className={classes.containerThree}>
-        <Grid container className={classes.cardList}>
-          {lastNews.map((row) => {
-            return (
-              <div key={row.id}>
+      <Box className={classes.containerTitle}>
+        <Typography variant='h5' className={classes.title}>Ultimas Novedades</Typography>
+      </Box>
+        <Grid 
+          container 
+          spacing={4} 
+          direction="row"
+          justifyContent="center"
+          alignItems="center"
+          className={classes.gridContainer}
+        >
+          {lastNews.map((news) => (
+              <Grid 
+                item
+                key={news.id}
+                sm={12}
+                md={6}
+                lg={4}
+                className={classes.gridItem}
+              >
                 <CardComponent
-                  key={row.id}
-                  title={row.name}
-                  image={row.image}
-                  description={row.content}
-                  leerMasLink={() => handleSubmit(row.name, row.id)}
+                  key={news.id}
+                  title={news.name}
+                  image={news.image}
+                  description={news.content}
+                  leerMasLink={() => handleSubmit(news.name, news.id)}
                 />
-              </div>
-            )
-          })}
+              </Grid>
+          ))}
         </Grid>
-      </Container>
       <DecorativeLine />
     </Container>
   )

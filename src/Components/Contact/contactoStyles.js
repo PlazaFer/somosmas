@@ -1,31 +1,25 @@
 import { makeStyles } from '@mui/styles'
-import { width } from '@mui/system'
 
 const useStyles = makeStyles((theme) => ({
-  mail: {
-    paddingTop: '10px',
-    color: theme.palette.secondary.main,
-  },
-  redes: {
-    marginTop: '10px',
-    display: 'flex',
-    alignItems: 'flex-end',
-  },
-  subtitle: {
-    paddingTop: '20px',
-    [theme.breakpoints.down('md')]: {
-      fontSize: '0.8rem !important',
-      paddingTop: '13px',
-    },
-  },
-  icon: {
-    paddingRight: '30px',
-    color: theme.palette.secondary.main,
-    textDecoration: 'none',
-  },
   container: {
-    marginBottom: '35px',
+    margin: '50px auto 50px auto',
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    [theme.breakpoints.up('md')]:{
+      flexDirection: 'row',
+    }
   },
+  containerMap:{
+    height: '520px',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'flex-start',
+    justifyContent: 'flex-start',
+    margin: '0px'
+  }
 }))
 
 export default useStyles

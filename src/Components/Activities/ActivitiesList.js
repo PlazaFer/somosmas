@@ -3,9 +3,8 @@ import { getAllActivities } from '../../Services/Home'
 import CardComponent from '../Card/CardComponent'
 import DecorativeLine from '../DecorativeLine/DecorativeLine'
 import { useHistory } from 'react-router-dom'
-import { Container, Grid } from '@mui/material'
+import { Container, Grid, Typography, Box } from '@mui/material'
 import useStyles from './Styles/StyledAct'
-import ActivityContent from './AntivityContent'
 
 const ActivitiesList = () => {
   const classes = useStyles()
@@ -28,26 +27,37 @@ const ActivitiesList = () => {
 
   return (
     <Container>
-      <h2>Ultimas Actividades</h2>
-      <Container className={classes.containerThree}>
-        <Grid container className={classes.cardList}>
-          {lastActivities.map((row) => {
-            return (
-              <div className={classes.divContent} key={row.id}>
+      <Box className={classes.containerTitle}>
+        <Typography variant='h5' className={classes.title}>Ultimas Actividades</Typography>
+      </Box>
+        <Grid
+          container 
+          spacing={4} 
+          direction="row"
+          justifyContent="center"
+          alignItems="center"
+          className={classes.gridContainer}
+        >
+          {lastActivities.map((activity) => (
+              <Grid
+                item
+                key={activity.id}
+                sm={12}
+                md={6}
+                lg={4}
+                className={classes.gridItem}
+              >
                 <CardComponent
-                  key={row.id}
-                  title={row.name}
-                  image={row.image}
-                  description={row.description}
-                  leerMasLink={() => handleSubmit(row.name, row.id)}
+                  key={activity.id}
+                  title={activity.name}
+                  image={activity.image}
+                  description={activity.description}
+                  leerMasLink={() => handleSubmit(activity.name, activity.id)}
                 />
-              </div>
-            )
-          })}
+              </Grid>
+          ))}
         </Grid>
       </Container>
-      <DecorativeLine />
-    </Container>
   )
 }
 

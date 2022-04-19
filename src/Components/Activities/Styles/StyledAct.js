@@ -7,20 +7,28 @@ const useStyles = makeStyles((theme) => ({
       fontSize: '0.8rem !important',
     },
   },
-  cardList: {
-    marginBottom: '40px',
-    justifyContent: 'space-between',
-    columnGap: '10px',
-    [theme.breakpoints.down('sm')]: {
-      justifyContent: 'center',
-    },
+  gridContainer: {
+    marginBottom: '80px'
   },
-
+  gridItem:{
+    height: '500px',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   iconButton: {
     cursor: 'pointer',
     position: 'end',
   },
-
+  containerTitle:{
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  title:{
+    marginTop: 60,
+    marginBottom: 40
+  },
   image: {
     flex: '0 0 40%',
     boxShadow: '-4px 14px 23px -5px rgba(0,0,0,0.82)',

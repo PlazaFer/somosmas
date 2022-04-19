@@ -5,6 +5,10 @@ export const getCATEGORIES = ()=>{
     return privateGET(endPoint)
 }
 
+export const getCATEGORIESTITLE = (params) => {
+    return privateGET(`${endPoint}${params}`)
+}
+
 export const getCATEGORIESID = (id)=>{
     return privateGET(endPoint, id)
 }

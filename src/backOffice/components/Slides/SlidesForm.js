@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useFormik } from 'formik';
 import { validationSchema } from './config';
 import { convertToBase64 } from '../../../helpers/base64';
-import { TextField, Button, Typography, Paper, Box, Container } from '@mui/material';
+import { TextField, Button, Typography, Paper, Box, Container,Toolbar } from '@mui/material';
 import useStyles from '../../styles/newsFormStyles';
 import Editor from '../Editor/Editor'
 import { useLocation, useHistory } from 'react-router-dom'
@@ -67,39 +67,41 @@ const SlidesForm = () => {
     }, [status]);
 
     return (
-        <Container className={classes.container}>
+        <>
+            <Toolbar></Toolbar>
+            <Container className={classes.container}>
 
-            <form onSubmit={handleSubmit} className={classes.form}>
-                <Paper className={classes.paper} elevation={5}>
-                    <Typography className={classes.title} variant="h5">{slidesId ? 'Editar Slide' : 'Crear Slide'}</Typography>
-                    <TextField fullWidth
-                        className={classes.inputs}
-                        name="name"
-                        type="text"
-                        placeholder="Nombre"
-                        value={values.name}
-                        onChange={handleChange}
-                        error={touched.name && Boolean(errors.name)}
-                        helperText={touched.name && errors.name} />
+                <form onSubmit={handleSubmit} className={classes.form}>
+                    <Paper className={classes.paper} elevation={5}>
+                        <Typography className={classes.title} variant="h5">{slidesId ? 'Editar Slide' : 'Crear Slide'}</Typography>
+                        <TextField fullWidth
+                            className={classes.inputs}
+                            name="name"
+                            type="text"
+                            placeholder="Nombre"
+                            value={values.name}
+                            onChange={handleChange}
+                            error={touched.name && Boolean(errors.name)}
+                            helperText={touched.name && errors.name} />
 
-                    <TextField fullWidth
-                        name="order"
-                        type="number"
-                        className={classes.inputs}
-                        value={values.order}
-                        onChange={handleChange}
-                        placeholder="Order"
-                        error={touched.order && Boolean(errors.order)}
-                        helperText={touched.order && errors.order} />
+                        <TextField fullWidth
+                            name="order"
+                            type="number"
+                            className={classes.inputs}
+                            value={values.order}
+                            onChange={handleChange}
+                            placeholder="Order"
+                            error={touched.order && Boolean(errors.order)}
+                            helperText={touched.order && errors.order} />
 
-                    <TextField fullWidth
-                        name="image"
-                        type="file"
-                        className={classes.inputs}
-                        onChange={(e) => setFieldValue("image", e.target.files[0])}
-                        error={touched.image && Boolean(errors.image)}
-                        helperText={touched.image && errors.image}
-                    />
+                        <TextField fullWidth
+                            name="image"
+                            type="file"
+                            className={classes.inputs}
+                            onChange={(e) => setFieldValue("image", e.target.files[0])}
+                            error={touched.image && Boolean(errors.image)}
+                            helperText={touched.image && errors.image}
+                        />
                         <Editor
                             id="description"
                             name="description"
@@ -112,22 +114,24 @@ const SlidesForm = () => {
                         {handleSubmit && errors.description &&
                             <Typography variant="caption" color="error">{touched.description && errors.description}</Typography>
                         }
-                    <Button color='secondary' className={classes.button} fullWidth type="submit" variant="contained">
-                        {status === 'loading' ? <Spinner width={30} height={30} color='#FFF' /> : 'Enviar'}
-                    </Button>
-                </Paper>
+                        <Button color='secondary' className={classes.button} fullWidth type="submit" variant="contained">
+                            {status === 'loading' ? <Spinner width={30} height={30} color='#FFF' /> : 'Enviar'}
+                        </Button>
+                    </Paper>
 
-                <Box className={classes.finalLink}>
-                    <Button
-                        variant="contained"
-                        color="secondary"
-                        onClick={() => history.goBack()}
-                    >
-                        Volver a la lista
-                    </Button>
-                </Box>
-            </form>
-        </Container>
+                    <Box className={classes.finalLink}>
+                        <Button
+                            variant="contained"
+                            color="secondary"
+                            onClick={() => history.push("/backoffice/slides")}
+                        >
+                            Volver a la lista
+                        </Button>
+                    </Box>
+                </form>
+            </Container>
+        </>
+
     );
 }
 export default SlidesForm;

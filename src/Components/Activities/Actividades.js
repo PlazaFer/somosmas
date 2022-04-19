@@ -2,8 +2,6 @@ import React from 'react'
 import { useHistory } from 'react-router-dom'
 import { Container, Grid } from '@mui/material'
 import Title from '../Title/Title'
-import ShowModal from '../../Utils/AlertsProps'
-import DecorativeLine from '../DecorativeLine/DecorativeLine'
 import Spinner from '../../shared/Spinner/Spinner'
 import useStyles from './Styles/StyledAct'
 import CardComponent from '../Card/CardComponent'
@@ -13,7 +11,7 @@ import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
 import { getActivity } from '../../redux/Activities/activitySlice'
 import '../CardListStyles.css'
-import ActivityContent from '../Activities/AntivityContent'
+import { Box } from '@mui/system'
 
 const activitiesMockInfo = {
   title: 'Actividades',
@@ -32,7 +30,7 @@ const alertText = {
 
 const Actividades = () => {
   const dispatch = useDispatch()
-  const { loading, error, activities } = useSelector(
+  const { status, activities } = useSelector(
     (state) => state.activities,
   )
   const classes = useStyles()
@@ -46,54 +44,43 @@ const Actividades = () => {
   const history = useHistory()
   const handleSubmit = (name, id) => {
     history.push(`/activities/${id}`, { id: activities.id })
-    console.log(id)
   }
 
   return (
-    <div>
-      <div className={classes.newsSpinner}>
-        {error ? (
-          <ShowModal
-            icon={alertText.icon}
-            title={alertText.title}
-            text={alertText.text}
-            footer={alertText.footer}
-          />
-        ) : (
-          <>
-            <Title
-              title={activitiesMockInfo.title}
-              imgSrc={activitiesMockInfo.image}
-            />
-            <Container>
-              {loading ? (
-                <Spinner color={'#C63A3B'} />
-              ) : (
-                <>
-                  <ActivitiesText text={activitiesMockInfo.text} />
-                  <Grid container className={classes.cardList}>
-                    {activities.map((row) => {
-                      return (
-                        <div key={row.id}>
-                          <CardComponent
-                            key={row.id}
-                            title={row.name}
-                            image={row.image}
-                            description={row.description}
-                            leerMasLink={() => handleSubmit(row.name, row.id)}
-                          />
-                        </div>
-                      )
-                    })}
-                  </Grid>
-                  <DecorativeLine />
-                </>
-              )}
-            </Container>
-          </>
-        )}
-      </div>
-    </div>
+    <>
+      <Title
+        title={activitiesMockInfo.title}
+        imgSrc={activitiesMockInfo.image}
+      />
+
+      {status === "loading" ? <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+        <Spinner color={'#C63A3B'} />
+      </Box> :
+        <>
+          <ActivitiesText text={activitiesMockInfo.text} />
+          <Grid
+            container
+            sx={{ marginBottom: "43px" }}
+            spacing={2}
+          >
+            {activities.map(({ id, name, image, description }) => (
+              <Grid item sm={12} md={6} lg={4} sx={{ display: "flex", justifyContent: "center" }} >
+                <CardComponent
+                  key={id}
+                  title={name}
+                  image={image}
+                  description={description}
+                  leerMasLink={() => handleSubmit(name, id)}
+                />
+              </Grid>
+            ))}
+
+          </Grid>
+        </>
+
+
+      }
+    </>
   )
 }
 
